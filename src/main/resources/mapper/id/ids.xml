@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.gentledot.id.Ids">
+
+    <select id="getNextId" parameterType="String" resultType="String">
+        SELECT next_id FROM ids
+        WHERE table_name = #{tableName}
+    </select>
+
+    <update id="updateNextId">
+      UPDATE ids
+         SET
+         next_id = (next_id + 1)
+         WHERE table_name = #{tableName, jdbcType=VARCHAR}
+    </update>
+
+</mapper>
