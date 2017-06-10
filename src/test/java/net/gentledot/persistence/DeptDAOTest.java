@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest
 @Transactional
 public class DeptDAOTest {
     DeptVO vo;

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.gentledot.scott.DeptSQL">
+    <resultMap id="deptMap" type="deptVO">
+        <result property="deptNo" column="DEPTNO"/>
+        <result property="dName" column="DNAME"/>
+        <result property="loc" column="LOC"/>
+    </resultMap>
+
+    <sql id="dept">
+        SELECT DEPTNO, DNAME, LOC FROM DEPT WHERE DEPTNO like '%'||#{deptNo}||'%'
+    </sql>
+
+    <select id="selectDeptList" parameterType="deptVO" resultMap="deptMap">
+        SELECT *
+          FROM (
+            SELECT ROWNUM rn, a.*
+              FROM (
+                <include refid="dept"/>
+              ) a
+          )
+        WHERE ROWNUM <![CDATA[<=]]> #{pageSize}
+          AND rn <![CDATA[>]]> (#{pageNo} - 1) * #{pageSize}
+    </select>
+
+    <select id="deptListCount" parameterType="deptVO" resultType="int">
+        select count(0) totalCnt
+        from (
+        <include refid="dept"/>
+        )
+    </select>
+
+    <select id="selectDept" parameterType="deptVO" resultMap="deptMap">
+        SELECT DEPTNO, DNAME, LOC
+        FROM DEPT
+        WHERE DEPTNO = #{deptNo}
+    </select>
+
+    <insert id="addDept">
+        INSERT INTO DEPT (DEPTNO, DNAME,LOC)
+        VALUES (#{deptNo, jdbcType=INTEGER}, #{dName, jdbcType=VARCHAR}, #{loc, jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateDept">
+        UPDATE DEPT
+        SET
+          DNAME = #{dName, jdbcType=VARCHAR}
+          ,LOC = #{loc, jdbcType=VARCHAR}
+        WHERE
+          DEPTNO = #{deptNo, jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteDept">
+        DELETE DEPT WHERE DEPTNO = #{deptNo, jdbcType=INTEGER}
+    </delete>
+</mapper>

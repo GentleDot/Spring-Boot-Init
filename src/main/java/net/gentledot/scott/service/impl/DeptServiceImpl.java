@@ -2,11 +2,14 @@ package net.gentledot.scott.service.impl;
 
 import net.gentledot.persistence.DeptDAO;
 import net.gentledot.scott.service.DeptService;
+import net.gentledot.utils.Paging;
 import net.gentledot.vo.DeptVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Sang on 2017-05-08.
@@ -20,11 +23,6 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public List<DeptVO> selectDeptList(DeptVO vo) {
         return deptDao.selectDeptList(vo);
-    }
-
-    @Override
-    public int deptListCount(DeptVO vo) {
-        return deptDao.deptListCount(vo);
     }
 
     @Override
@@ -45,5 +43,19 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public int deleteDept(DeptVO vo) {
         return deptDao.deleteDept(vo);
+    }
+
+    public Map<String, Object> selectDeptListWithPaging(DeptVO vo, int pageSize, int pageNo, int pageScope) {
+        Map<String, Object> returnMap = new HashMap<>();
+
+        List<DeptVO> resultList = deptDao.selectDeptList(vo);
+        int totalCount = deptDao.deptListCount(vo);
+
+        Paging paging = new Paging(pageSize, pageNo, pageScope, totalCount);
+
+        returnMap.put("resultList", resultList);
+        returnMap.put("paging", paging);
+
+        return returnMap;
     }
 }
