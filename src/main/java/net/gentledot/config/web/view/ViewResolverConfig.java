@@ -22,6 +22,7 @@ public class ViewResolverConfig {
         templateResolver.setPrefix("/WEB-INF/views/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode("HTML5");
+        templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setOrder(1);
 
         return templateResolver;
@@ -40,7 +41,8 @@ public class ViewResolverConfig {
     @Autowired
     public ThymeleafViewResolver thymeleafViewResolver(SpringTemplateEngine templateEngine){
         ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
-        thymeleafViewResolver.setViewNames(new String[]{"thymeleaf/*"});
+        thymeleafViewResolver.setCharacterEncoding("UTF-8");
+        thymeleafViewResolver.setViewNames(new String[]{"thymeleaf/*","thymeleaf/**/*"});
         thymeleafViewResolver.setTemplateEngine(templateEngine);
 
         return thymeleafViewResolver;

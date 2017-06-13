@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head lang="ko">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>defaultBoard</title>
+    <script type="text/javascript" src="/webjars/jquery/3.1.1/jquery.min.js"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <section layout:fragment="content">
+        <p>컨텐츠 영역</p>
+    </section>
+    <section th:fragment="paging">
+        <div class="row">
+            <nav class="boardNav">
+                <ul class="pagination pagination-sm" th:each="i : ${#numbers.sequence(${paging.startPageNo}, ${paging.endPageNo}">
+                    <li><a href="javascript:goPage(${paging.firstPageNo})"><span aria-hidden="true">&laquo;&laquo;</span><span class="sr-only">처음 페이지</span></a></li>
+                    <li><a href="javascript:goPage(${paging.prevPageNo})"><span aria-hidden="true">&laquo;</span><span class="sr-only">이전 페이지</span></a></li>
+
+                    <!--<c:forEach var="i" begin="${param.startPageNo}" end="${param.endPageNo}" step="1">
+                        <c:choose>
+                            <c:when test="${i eq param.pageNo}"> <li><a class="active" href="javascript:goPage(${i})">${i}</a></li></c:when>
+                            <c:otherwise><li><a href="javascript:goPage(${i})">${i}</a></li></c:otherwise>
+                        </c:choose>
+                    </c:forEach>-->
+                    <li>
+                        <a class="active" href="javascript:goPage(${i})" th:text="${i}"></a>
+                    </li>
+                    <li th:if="${paging.pageNo.equals(i)}">
+                        <a class="active" href="javascript:goPage(${i})" th:text="${i}"></a>
+                    </li>
+
+                    <li><a href="javascript:goPage(${paging.nextPageNo})"><span aria-hidden="true">&raquo;</span><span class="sr-only">다음 페이지</span></a>
+                    <li><a href="javascript:goPage(${paging.finalPageNo})"><span aria-hidden="true">&raquo;&raquo;</span><span class="sr-only">마지막 페이지</span></a>
+                </ul>
+                <div class="clearfix"></div>
+            </nav>
+        </div>
+    </section>
+</body>
+
+</html>

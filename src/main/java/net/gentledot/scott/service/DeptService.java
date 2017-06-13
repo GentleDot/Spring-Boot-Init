@@ -14,4 +14,5 @@ public interface DeptService {
     public int addDept(DeptVO vo);
     public int updateDept(DeptVO vo);
     public int deleteDept(DeptVO vo);
+    public Map<String, Object> selectDeptListWithPaging(String deptNo, int pageSize, int pageNo, int pageScope);
 }

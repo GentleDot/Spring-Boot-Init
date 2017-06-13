@@ -52,6 +52,10 @@ dependencies {
 	// Commons Lang 3
 	compile('org.apache.commons:commons-lang3:3.5')
 
+	//font-end
+	compile('org.webjars:jquery:3.1.1')
+	compile('org.webjars:bootstrap:3.3.7')
+
 	// lombok
 	compileOnly('org.projectlombok:lombok')
 

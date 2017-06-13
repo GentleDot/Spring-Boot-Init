@@ -45,13 +45,20 @@ public class DeptServiceImpl implements DeptService {
         return deptDao.deleteDept(vo);
     }
 
-    public Map<String, Object> selectDeptListWithPaging(DeptVO vo, int pageSize, int pageNo, int pageScope) {
+    @Override
+    public Map<String, Object> selectDeptListWithPaging(String deptNo, int pageSize, int pageNo, int pageScope) {
         Map<String, Object> returnMap = new HashMap<>();
+
+        DeptVO vo = new DeptVO();
+        vo.setDeptNo(deptNo);
+        vo.setPageSize(pageSize);
+        vo.setPageNo(pageNo);
 
         List<DeptVO> resultList = deptDao.selectDeptList(vo);
         int totalCount = deptDao.deptListCount(vo);
 
         Paging paging = new Paging(pageSize, pageNo, pageScope, totalCount);
+        paging.setPaging();
 
         returnMap.put("resultList", resultList);
         returnMap.put("paging", paging);

@@ -9,7 +9,7 @@
     </resultMap>
 
     <sql id="dept">
-        SELECT DEPTNO, DNAME, LOC FROM DEPT WHERE DEPTNO like '%'||#{deptNo}||'%'
+        SELECT DEPTNO, DNAME, LOC FROM DEPT2 WHERE DEPTNO like '%'||#{deptNo}||'%'
     </sql>
 
     <select id="selectDeptList" parameterType="deptVO" resultMap="deptMap">
@@ -33,17 +33,17 @@
 
     <select id="selectDept" parameterType="deptVO" resultMap="deptMap">
         SELECT DEPTNO, DNAME, LOC
-        FROM DEPT
+        FROM DEPT2
         WHERE DEPTNO = #{deptNo}
     </select>
 
     <insert id="addDept">
-        INSERT INTO DEPT (DEPTNO, DNAME,LOC)
+        INSERT INTO DEPT2 (DEPTNO, DNAME, LOC)
         VALUES (#{deptNo, jdbcType=INTEGER}, #{dName, jdbcType=VARCHAR}, #{loc, jdbcType=VARCHAR})
     </insert>
 
     <update id="updateDept">
-        UPDATE DEPT
+        UPDATE DEPT2
         SET
           DNAME = #{dName, jdbcType=VARCHAR}
           ,LOC = #{loc, jdbcType=VARCHAR}
@@ -52,6 +52,6 @@
     </update>
 
     <delete id="deleteDept">
-        DELETE DEPT WHERE DEPTNO = #{deptNo, jdbcType=INTEGER}
+        DELETE DEPT2 WHERE DEPTNO = #{deptNo, jdbcType=INTEGER}
     </delete>
 </mapper>
