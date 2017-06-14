@@ -145,5 +145,4 @@ public class DeptControllerTest {
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/dept/deptList.do"));
     }
-
 }
