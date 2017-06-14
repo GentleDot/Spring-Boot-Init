@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.tools.Tool;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,62 @@ public class DeptController {
         model.addAttribute("pageNo",pageNo);
 
         return "thymeleaf/dept/deptList";
+    }
+
+    @RequestMapping("/dept/deptView.do")
+    public String selectDeptDataView(@RequestParam HashMap<String, String> req, ModelMap model){
+        String deptNo = Tools.toEmptyBlank(req.get("deptNo"));
+
+        DeptVO vo = new DeptVO();
+        vo.setDeptNo(deptNo);
+
+        DeptVO resultVO = service.selectDept(vo);
+
+        model.addAttribute("resultVO", resultVO);
+
+        return "thymeleaf/dept/deptView";
+    }
+
+    @RequestMapping("/dept/deptEdit.do")
+    public String updateDeptView(@RequestParam HashMap<String, String> req, ModelMap model){
+        String deptNo = Tools.toEmptyBlank(req.get("deptNo"));
+
+        DeptVO vo = new DeptVO();
+        vo.setDeptNo(deptNo);
+
+        DeptVO resultVO = service.selectDept(vo);
+
+        model.addAttribute("resultVO", resultVO);
+
+        return "thymeleaf/dept/deptUpdateView";
+    }
+
+    @RequestMapping("/dept/deptUpdate.do")
+    public String updateDept(@RequestParam HashMap<String, String> req, ModelMap model){
+        String deptNo = Tools.toEmptyBlank(req.get("item_deptNo"));
+        String dName = Tools.toEmptyBlank(req.get("item_dName"));
+        String loc = Tools.toEmptyBlank(req.get("item_loc"));
+
+        DeptVO vo = new DeptVO();
+        vo.setDeptNo(deptNo);
+        vo.setdName(dName);
+        vo.setLoc(loc);
+
+        int resultStatus = service.updateDept(vo);
+
+        return "redirect:/dept/deptList.do";
+    }
+
+    @RequestMapping("/dept/deptDel.do")
+    public String deleteDept(@RequestParam HashMap<String, String> req, ModelMap model){
+        String deptNo = Tools.toEmptyBlank(req.get("deptNo"));
+
+        DeptVO vo = new DeptVO();
+        vo.setDeptNo(deptNo);
+
+        int resultStatus = service.deleteDept(vo);
+
+        return "redirect:/dept/deptList.do";
     }
 
 }

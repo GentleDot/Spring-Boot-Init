@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ko" layout:decorator="/layout/default_board">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html"/>
+    <title>DEPT 정보 수정</title>
+
+    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+<div id="container">
+    <header>
+
+    </header>
+    <section class="main">
+        <h1>updateDept</h1>
+
+        <form th:action="@{/dept/deptUpdate.do(deptNo=${resultVO.deptNo})}" method="pa
+" name="updateDept">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <label for="item_deptNo">부서번호 : </label>
+                            <input type="text" id="item_deptNo" class="form-control" name="item_deptNo" th:value="${resultVO.deptNo}" readonly="readonly"/>
+                        </li>
+                        <li class="list-group-item">
+                            <label for="item_dName">부서명 : </label>
+                            <input type="text" id="item_dName" class="form-control" name="item_dName" th:value="${resultVO.dName}" />
+                        </li>
+                        <li class="list-group-item">
+                            <label for="item_loc">부서위치 : </label>
+                            <input type="text" id="item_loc" class="form-control" name="item_loc" th:value="${resultVO.loc}"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <div class="btn-group" style="margin-top: 2em">
+                        <a class="btn btn-default" th:href="@{/dept/deptList.do}">목록으로</a>
+                        <input type="submit" class="btn btn-success" th:href="@{/dept/deptUpdate.do(deptNo=${resultVO.deptNo})}" value="저장"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</div>
+</body>
+
+</html>

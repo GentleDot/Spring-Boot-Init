@@ -4,6 +4,7 @@ package net.gentledot.scott.web;/**
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -95,140 +96,54 @@ public class DeptControllerTest {
                 .andExpect(model().attributeExists("paging"));
     }
 
+    @Test
+    public void selectDeptDetailTest() throws Exception {
+        vo.setDeptNo("10");
+
+        when(service.selectDept((DeptVO) anyObject())).thenReturn(vo);
+
+        mockMvc.perform(get("/dept/deptView.do")
+                            .param("deptNo", "10"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("resultVO"));
+    }
+
+    @Test
+    public void updateDeptViewTest() throws Exception {
+        vo.setDeptNo("10");
+
+        when(service.selectDept((DeptVO) anyObject())).thenReturn(vo);
+
+        mockMvc.perform(get("/dept/deptEdit.do")
+                .param("deptNo", "10"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("resultVO"));
+
+    }
+
+    @Test
+    public void updateDeptTest() throws Exception {
+        vo.setDeptNo("124");
+        vo.setdName("testAndTest");
+        vo.setLoc("testLocation");
+
+        when(service.updateDept(vo)).thenReturn(1);
+
+        mockMvc.perform(get("/dept/deptUpdate.do"))
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrl("/dept/deptList.do"));
+    }
+
+    @Test
+    public void deleteDeptTest() throws Exception {
+        vo.setDeptNo("140");
+
+        when(service.deleteDept(vo)).thenReturn(1);
+
+        mockMvc.perform(get("/dept/deptDel.do")
+                .param("deptNo", "140"))
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(redirectedUrl("/dept/deptList.do"));
+    }
+
 }
-    /*
-    @Test
-    public void selectBikeRentalListTest() throws Exception {
-        Map<String, Object> resultMap = new HashMap<String, Object>();
-
-        Paging tempPaging = new Paging();
-        tempPaging.setPageNo(1);
-        tempPaging.setPageSize(10);
-
-        resultMap.put("paging", tempPaging);
-        resultMap.put("resultList", new ArrayList<BikeRentalVO>());
-
-        when(service.selectListService(anyString(), anyInt(), anyInt()))
-                .thenReturn(resultMap);
-
-		*//*when(service.selectBikeRentalList(vo))
-			.thenReturn(new ArrayList<GeoInfoBikeRentalVO>());
-		when(service.selectBikeRentalListCount(vo))
-			.thenReturn(100);*//*
-
-        mockMvc.perform(get("/bikeRental/list.do"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("station"))
-                .andExpect(model().attributeExists("resultList"))
-                .andExpect(model().attributeExists("paging"));
-
-        mockMvc.perform(get("/bikeRental/list.do")
-                .param("pageNo", "1")
-                .param("station", "성균관"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("station"))
-                .andExpect(model().attributeExists("resultList"))
-                .andExpect(model().attributeExists("paging"));
-    }
-
-    @Test
-    public void bikeRentalViewTest() throws Exception{
-
-        when(service.selectBikeRental((BikeRentalVO) anyObject()))
-                .thenReturn(new BikeRentalVO());
-
-        mockMvc.perform(get("/bikeRental/detail.do"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("resultVO"));
-
-
-        mockMvc.perform(get("/bikeRental/detail.do")
-                .param("mainKey", "BE_IW09-0001"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("resultVO"));
-    }
-
-    @Test
-    public void bikeRentalAddViewTest() throws Exception{
-        String tableName = "BIKE_RENTAL";
-
-        when(idService.getNextId(tableName))
-                .thenReturn("149");
-
-        mockMvc.perform(get("/bikeRental/addView.do"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("nextNo"));
-    }
-
-    @Test
-    public void bikeRentalAddTest() throws Exception{
-        when(service.addBikeRental(vo))
-                .thenReturn(1);
-
-        mockMvc.perform(get("/bikeRental/add.do")
-                .param("mainKey", "BE_IW09-9999"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/bikeRental/list.do"));
-    }
-
-    @Test
-    public void faiiBikeRentalAddTest() throws Exception{
-        when(service.addBikeRental(vo))
-                .thenReturn(0);
-
-        mockMvc.perform(get("/bikeRental/add.do")
-                .param("mainKey", "BE_IW09-9999")
-                .param("len", "ㄱㄴㄷ"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("addView.do"));
-    }
-
-    @Test
-    public void bikeRentalUpdateViewTest() throws Exception{
-        when(service.selectBikeRental((BikeRentalVO) anyObject()))
-                .thenReturn(new BikeRentalVO());
-
-        mockMvc.perform(get("/bikeRental/modifyView.do"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("resultVO"));
-
-        mockMvc.perform(get("/bikeRental/modifyView.do")
-                .param("mainKey", "BE_IW09-0001"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("resultVO"));
-
-    }
-
-    @Test
-    public void bikeRentalUpdateTest() throws Exception{
-        when(service.modifyBikeRental(vo))
-                .thenReturn(1);
-
-        mockMvc.perform(get("/bikeRental/modify.do")
-                .param("mainKey", "BE_IW09-0001"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/bikeRental/list.do"));
-    }
-
-    @Test
-    public void failBikeRentalUpdateTest() throws Exception{
-        when(service.modifyBikeRental(vo))
-                .thenReturn(0);
-
-        mockMvc.perform(get("/bikeRental/modify.do")
-                .param("mainKey", "BE_IW09-0001")
-                .param("len", "abc"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("modifyView.do?mainKey=1"));
-    }
-
-    @Test
-    public void bikeRentalDeleteTest() throws Exception{
-        when(service.deleteBikeRental(vo))
-                .thenReturn(1);
-
-        mockMvc.perform(get("/bikeRental/del.do")
-                .param("mainKey", "BE_IW09-0001"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/bikeRental/list.do"));
-    }*/

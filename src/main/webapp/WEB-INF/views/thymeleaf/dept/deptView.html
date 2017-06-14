@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ko" layout:decorator="/layout/default_board">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html"/>
+    <title>DEPT 상세정보</title>
+
+    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+<div id="container">
+    <header>
+
+    </header>
+    <section class="main">
+        <h1>deptView</h1>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <div class="btn-group" style="margin-bottom: 2em">
+                    <a class="btn btn-default" th:href="@{/dept/deptList.do}">목록으로</a>
+                    <a class="btn btn-info" th:href="@{/dept/deptEdit.do(deptNo=${resultVO.deptNo})}">정보 수정</a>
+                    <a class="btn btn-danger" th:href="@{/dept/deptDel.do(deptNo=${resultVO.deptNo})}">정보 삭제</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <ul class="list-group">
+                    <li class="list-group-item" th:text="'부서번호 : ' + ${resultVO.deptNo}">부서번호 :</li>
+                    <li class="list-group-item" th:text="'부서명 : ' + ${resultVO.dName}">부서명 : </li>
+                    <li class="list-group-item" th:text="'부서위치 : ' + ${resultVO.loc}">위치 : </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+
+</html>
